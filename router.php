@@ -82,7 +82,7 @@ class Router
 			$pname = '';
 
 			foreach($r['postFieldNs'] as $i=>$n){
-				echo $n;
+
 				if (strstr($n,'[]')){
 
 					if ($pname!=str_replace('[]','',$n))
@@ -114,7 +114,7 @@ class Router
 		);
 
 		if (isset($this->postFields) && !in_array($this->method,array('GET','HEAD','TRACE','OPTIONS')))
-			$client->addPostFields($this->postFields);
+			$request->addPostFields($this->postFields);
 
 		if (isset($this->headers['host']))
 			unset($this->headers['host']);

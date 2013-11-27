@@ -5,7 +5,7 @@ use Guzzle\Http\Client;
 use Guzzle\Http\Message;
 use Guzzle\Http\Message\RequestFactory;
 
-class APIRouter
+class Router
 {
 
 	public $host;
@@ -28,8 +28,8 @@ class APIRouter
 		$this->r = $_REQUEST;
 		
 		$this->createParams();
-		$this->version = $r['version']; //http version
-		$this->method = $r['method']; 
+		$this->version = $this->r['version']; //http version
+		$this->method = $this->r['method']; 
 	}
 
 	public function createParams()
@@ -65,8 +65,9 @@ class APIRouter
 							
 				$headers[$r['headerFieldNs'][$i]] = $r['headerFieldVs'][$i];
 
-				return $headers;
-			}	
+			}
+
+			return $headers;
 		}
 
 		return false;
@@ -76,10 +77,12 @@ class APIRouter
 	{
 		if (isset($this->r['postFieldNs'])){
 			
+			$r = $this->r;	
 			$postFields = array();
 			$pname = '';
+
 			foreach($r['postFieldNs'] as $i=>$n){
-				
+				echo $n;
 				if (strstr($n,'[]')){
 
 					if ($pname!=str_replace('[]','',$n))
@@ -93,8 +96,9 @@ class APIRouter
 
 				$postFields[$r['postFieldNs'][$i]] = $r['postFieldVs'][$i];
 
-				return $postFields;
 			}
+
+			return $postFields;
 		}
 
 		return false;
@@ -121,6 +125,7 @@ class APIRouter
 
 		echo $response->getBody();
 	}
+}
 
-$router = new APIRouter();
+$router = new Router();
 $router->run();
